@@ -14,5 +14,10 @@ export default {
       annual: 0,
       threeYear: 0
     }
+  },
+  richTest: {
+    richTestInputValue: 'initial test value',
+    dateModified: null,
+    price: 0
   }
 };
