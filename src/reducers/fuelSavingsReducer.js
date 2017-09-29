@@ -26,7 +26,6 @@ export default function fuelSavingsReducer(state = initialState.fuelSavings, act
       if (newState.necessaryDataIsProvidedToCalculateSavings) {
         newState.savings = calculator().calculateSavings(newState);
       }
-      console.info('Returning fuelSavings newState');
       return newState;
 
     default:

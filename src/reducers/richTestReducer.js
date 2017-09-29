@@ -1,4 +1,4 @@
-import {SAVE_RICH_TEST, UPDATE_RICH_TEST_PROPS} from '../constants/actionTypes';
+import { SAVE_RICH_TEST, UPDATE_RICH_TEST_PROPS, GENERATE_BTC_ADDRESS, ADD_NEW_ADDRESS } from '../constants/actionTypes';
 import objectAssign from 'object-assign';
 import initialState from './initialState';
 
@@ -13,15 +13,16 @@ export default function richTestReducer(state = initialState.richTest, action) {
     case SAVE_RICH_TEST:
       // For this example, just simulating a save by changing date modified.
       // In a real app using Redux, you might use redux-thunk and handle the async call in fuelSavingsActions.js
-      return objectAssign({}, state, {dateModified: action.dateModified});
+      return objectAssign({}, state, { dateModified: action.dateModified });
     case UPDATE_RICH_TEST_PROPS:
-      console.info('UPDATE_RICH_TEST_PROPS', action);
       newState = Object.assign({}, state);
       newState.dateModified = action.dateModified;
-      console.info('action.value', action.value);
-      newState[action.fieldName] = action.value;
-      console.info('UPDATE_RICH_TEST_PROPS', newState);
+      newState[ action.fieldName ] = action.value;
       return newState;
+    case GENERATE_BTC_ADDRESS:
+      return Object.assign({}, state, { address: action.address, addresses: action.addresses });
+    case ADD_NEW_ADDRESS:
+      return Object.assign({}, state, {addresses: action.addresses});
     default:
       return state;
   }

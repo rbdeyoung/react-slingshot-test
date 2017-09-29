@@ -17,7 +17,6 @@ class FuelSavingsForm extends React.Component {
   }
 
   fuelSavingsKeypress(name, value) {
-    console.info('fuelSavingsKeypress', name, value );
     this.props.calculateFuelSavings(this.props.fuelSavings, name, value);
   }
 

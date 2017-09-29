@@ -6,9 +6,13 @@ import * as actions from '../actions/richTestActions';
 import RichTestForm from '../components/RichTestForm';
 
 export const RichTestPage = (props) => {
-  console.log('RichTestPage render');
   return (
-    <RichTestForm saveRichTest={props.actions.saveRichTest} richTest={props.richTest} handleRichTestFormInputUpdate={props.actions.handleRichTestFormInputUpdate} />
+    <RichTestForm
+      saveRichTest={props.actions.saveRichTest}
+      richTest={props.richTest}
+      handleRichTestFormInputUpdate={props.actions.handleRichTestFormInputUpdate}
+      generateBtcAddress={props.actions.generateBtcAddress}
+      getNextAddress={props.actions.addNewAddress} />
   );
 };
 

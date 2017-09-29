@@ -29,3 +29,21 @@ h2 {
 .loss { color: $vin-red; }
 input.small { width: 46px; }
 td.fuel-savings-label { width: 175px; }
+
+.rich-test-table {
+  border-spacing: 0px;
+  margin-left: 12px;
+  tbody tr:nth-child(odd){
+    background-color: #dddddd;
+  }
+  tr {
+    line-height: 1.1em;
+  }
+  td {
+    vertical-align: middle;
+    padding: 0px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    padding-left: 25px;
+  }
+}

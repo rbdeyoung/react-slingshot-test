@@ -18,6 +18,8 @@ export default {
   richTest: {
     richTestInputValue: 'initial test value',
     dateModified: null,
-    price: 0
+    mnemonic: '',
+    address: '',
+    addresses: []
   }
 };

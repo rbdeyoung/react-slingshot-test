@@ -1,8 +1,16 @@
 import * as types from '../constants/actionTypes';
+import btc from 'bitcoinjs-lib';
+import bip39 from 'bip39';
 
 import {getFormattedDateTime} from '../utils/dateHelper';
-
+const numberOfAddressesToPopulate = 10;
 // example of a thunk using the redux-thunk middleware
+
+function deriveAddressFromPath(root, addressType, addressIndex){
+  const path = `m/0'/${addressType}/${addressIndex}`;
+  return {path, address: root.derivePath(path).getAddress()};
+}
+
 export function saveRichTest(settings) {
   return function (dispatch) {
     // thunks allow for pre-processing actions, calling apis, and dispatching multiple actions
@@ -16,7 +24,6 @@ export function saveRichTest(settings) {
 }
 
 export function handleRichTestFormInputUpdate(richTestSettings, fieldName, value) {
-    console.info('handleRichTestFormInputUpdate action creator', richTestSettings, fieldName, value);
     return {
       type: types.UPDATE_RICH_TEST_PROPS,
       dateModified: getFormattedDateTime(),
@@ -24,4 +31,31 @@ export function handleRichTestFormInputUpdate(richTestSettings, fieldName, value
       fieldName,
       value
     };
-};
+}
+
+export function generateBtcAddress(){
+
+  const mnemonic = bip39.generateMnemonic();
+  const publicSeedRoot = btc.HDNode.fromSeedBuffer(bip39.mnemonicToSeed(mnemonic));
+  const address = publicSeedRoot.getAddress();
+  let addresses = [ ];
+  for(let addressType = 0; addressType < 2; addressType++){
+
+    for(let addressIndex = 0; addressIndex < numberOfAddressesToPopulate; addressIndex++){
+      addresses.push(deriveAddressFromPath(publicSeedRoot, addressType, addressIndex));
+    }
+  }
+  return {
+    type: types.GENERATE_BTC_ADDRESS,
+    address,
+    addresses,
+    mnemonic
+  };
+}
+
+export function addNewAddress(addresses, address, index){
+  return {
+    type: types.ADD_NEW_ADDRESS,
+    addresses: [ ...addresses, deriveAddressFromPath(btc.HDNode.fromBase58(address), 0, index) ]
+  }
+}
