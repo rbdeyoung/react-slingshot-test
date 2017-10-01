@@ -19,7 +19,8 @@ export default {
     richTestInputValue: 'initial test value',
     dateModified: null,
     mnemonic: '',
-    address: '',
+    extendedPublicKey: '',
+    extendedPrivateKey: '',
     addresses: []
   }
 };

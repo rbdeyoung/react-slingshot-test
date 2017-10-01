@@ -22,11 +22,12 @@ class RichTestForm extends React.Component {
   }
 
   generateNewAddress() {
+    console.log('GenerateNewAddress');
     this.props.generateBtcAddress(this.props.richTest);
   }
 
   getNextAddress(){
-    this.props.getNextAddress(this.props.richTest.address, this.props.richTest.addresses.length);
+    this.props.getNextAddress(this.props.richTest.addresses, this.props.richTest.mnemonic, this.props.richTest.addresses.length);
   }
 
   render() {
@@ -37,38 +38,43 @@ class RichTestForm extends React.Component {
         <h2>Rich Test Form</h2>
         <table>
           <tbody>
+          {/*<tr>*/}
+            {/*<td><label htmlFor="richTestInput">Memo</label></td>*/}
+            {/*<td><input className="small" type="text" onChange={this.richTestKeypress} name="richTestInputValue"*/}
+                       {/*value={richTest.richTestInputValue} placeholder="Rich Test Input"/>*/}
+            {/*</td>*/}
+          {/*</tr>*/}
+          {/*<tr>*/}
+            {/*<td><label>Date Modified</label></td>*/}
+            {/*<td>{richTest.dateModified}</td>*/}
+          {/*</tr>*/}
           <tr>
-            <td><label htmlFor="richTestInput">Rich Test Input</label></td>
-            <td><input className="small" type="text" onChange={this.richTestKeypress} name="richTestInputValue"
-                       value={richTest.richTestInputValue} placeholder="Rich Test Input"/>
-            </td>
+            <td>Mnemonic</td>
+            <td>{richTest.mnemonic}</td>
           </tr>
           <tr>
-            <td><label>Date Modified</label></td>
-            <td>{richTest.dateModified}</td>
+            <td>Extended Public Key</td>
+            <td>{richTest.extendedPublicKey}</td>
           </tr>
           <tr>
-            <td><label>Price</label></td>
-            <td>{richTest.price}</td>
-          </tr>
-          <tr>
-            <td><input type="submit" value="GNA" onClick={this.generateNewAddress} /></td>
-            <td>{richTest.address}</td>
+            <td>Extended Private Key</td>
+            <td>{richTest.extendedPrivateKey}</td>
           </tr>
           </tbody>
         </table>
         <table className="rich-test-table"><tbody>
-          <tr><th>Path</th><th>Address</th></tr>
-          {
+
+        <tr><th>Path</th><th>Address</th></tr>
+        {
+          richTest.addresses && richTest.addresses.length > 0 ?
             richTest.addresses.map( (pa,i) => {
-              return <PathAndAddress key={i} path={pa.path} address={pa.address}/>
-            } )
-          }
-          <tr><td></td><td> <input type="submit" value="New Address" onClick={this.getNextAddress} /></td></tr>
+              return <PathAndAddress key={i} path={pa.path} address={pa.address}/>;
+            })
+          : <input type="submit" value="Generate Seed Information" onClick={this.generateNewAddress} />
+        }
+          <tr> <td>&nbsp;</td> <td> <input type="submit" value="New Address" onClick={this.getNextAddress} /></td></tr>
         </tbody></table>
         <hr/>
-        <input type="submit" value="Save" onClick={this.save}/>
-        <input type="submit" value="Get Price" onClick={this.getPrice}/>
       </div>
   );
   }
