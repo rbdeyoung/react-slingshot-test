@@ -8,8 +8,11 @@ class RichTestForm extends React.Component {
 
     this.save = this.save.bind(this);
     this.richTestKeypress = this.richTestKeypress.bind(this);
-    this.generateNewAddress = this.generateNewAddress.bind(this);
+    this.generateNewAccount = this.generateNewAccount.bind(this);
     this.getNextAddress = this.getNextAddress.bind(this);
+
+    this.generateNewAccountWithSagas = this.generateNewAccountWithSagas.bind(this);
+    this.generateNewAddressWithSagas = this.generateNewAddressWithSagas.bind(this);
   }
 
   richTestKeypress(e) {
@@ -21,13 +24,21 @@ class RichTestForm extends React.Component {
     this.props.saveRichTest();
   }
 
-  generateNewAddress() {
-    console.log('GenerateNewAddress');
+  generateNewAccount() {
     this.props.generateBtcAddress(this.props.richTest);
   }
 
-  getNextAddress(){
-    this.props.getNextAddress(this.props.richTest.addresses, this.props.richTest.mnemonic, this.props.richTest.addresses.length);
+  getNextAddress() {
+    this.props.getNextAddress(this.props.richTest.mnemonic, this.props.richTest.addresses.length);
+  }
+
+  generateNewAccountWithSagas() {
+    console.info('generateNewAccountWithSsgas');
+    this.props.generateNewAccountWithSagas(this.props.richTest);
+  }
+
+  generateNewAddressWithSagas() {
+    this.props.generateNewAddressWithSagas(this.props.richTest.mnemonic, this.props.richTest.addresses.length);
   }
 
   render() {
@@ -39,14 +50,14 @@ class RichTestForm extends React.Component {
         <table>
           <tbody>
           {/*<tr>*/}
-            {/*<td><label htmlFor="richTestInput">Memo</label></td>*/}
-            {/*<td><input className="small" type="text" onChange={this.richTestKeypress} name="richTestInputValue"*/}
-                       {/*value={richTest.richTestInputValue} placeholder="Rich Test Input"/>*/}
-            {/*</td>*/}
+          {/*<td><label htmlFor="richTestInput">Memo</label></td>*/}
+          {/*<td><input className="small" type="text" onChange={this.richTestKeypress} name="richTestInputValue"*/}
+          {/*value={richTest.richTestInputValue} placeholder="Rich Test Input"/>*/}
+          {/*</td>*/}
           {/*</tr>*/}
           {/*<tr>*/}
-            {/*<td><label>Date Modified</label></td>*/}
-            {/*<td>{richTest.dateModified}</td>*/}
+          {/*<td><label>Date Modified</label></td>*/}
+          {/*<td>{richTest.dateModified}</td>*/}
           {/*</tr>*/}
           <tr>
             <td>Mnemonic</td>
@@ -62,34 +73,49 @@ class RichTestForm extends React.Component {
           </tr>
           </tbody>
         </table>
-        <table className="rich-test-table"><tbody>
+        <table className="rich-test-table">
+          <tbody>
 
-        <tr><th>Path</th><th>Address</th></tr>
-        {
-          richTest.addresses && richTest.addresses.length > 0 ?
-            richTest.addresses.map( (pa,i) => {
-              return <PathAndAddress key={i} path={pa.path} address={pa.address}/>;
-            })
-          : <input type="submit" value="Generate Seed Information" onClick={this.generateNewAddress} />
-        }
-          <tr> <td>&nbsp;</td> <td> <input type="submit" value="New Address" onClick={this.getNextAddress} /></td></tr>
-        </tbody></table>
+          <tr>
+            <th>Path</th>
+            <th>Address</th>
+          </tr>
+          {
+            richTest.addresses && richTest.addresses.length > 0 ?
+              richTest.addresses.map((pa, i) => {
+                return <PathAndAddress key={i} path={pa.path} address={pa.address}/>;
+              })
+              : <tr><td>
+                  <input type="submit" value="Generate New Account With Thunks" onClick={this.generateNewAccount}/>
+                  <input type="submit" value="Generate New Account With Sagas" onClick={this.generateNewAccountWithSagas}/>
+                </td></tr>
+          }
+          <tr>
+            <td>&nbsp;</td>
+            <td>
+              <input type="submit" value="New Address With Thunks" onClick={this.getNextAddress}/>
+              <input type="submit" value="New Address With Sagas" onClick={this.generateNewAddressWithSagas}/>
+            </td>
+          </tr>
+          </tbody>
+        </table>
         <hr/>
       </div>
-  );
+    );
   }
-  }
-  const {func, shape, string} = PropTypes;
+}
 
-  RichTestForm.propTypes = {
-    saveRichTest: func.isRequired,
-    handleRichTestFormInputUpdate: func.isRequired,
-    generateBtcAddress: func.isRequired,
-    getNextAddress: func.isRequired,
-    richTest: shape({
-      richTestInputValue: string,
-      address: string,
-    }).isRequired
-  };
+const { func, shape, string } = PropTypes;
 
-  export default RichTestForm;
+RichTestForm.propTypes = {
+  saveRichTest: func.isRequired,
+  handleRichTestFormInputUpdate: func.isRequired,
+  generateBtcAddress: func.isRequired,
+  getNextAddress: func.isRequired,
+  richTest: shape({
+    richTestInputValue: string,
+    address: string,
+  }).isRequired
+};
+
+export default RichTestForm;

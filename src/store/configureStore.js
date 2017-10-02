@@ -7,7 +7,7 @@ import createHistory from 'history/createBrowserHistory';
 // 'routerMiddleware': the new way of storing route changes with redux middleware since rrV4.
 import { routerMiddleware } from 'react-router-redux';
 import rootReducer from '../reducers';
-import { helloSaga } from '../sagas/sagas';
+import { helloSaga, generateBtcAccount, generateNewAddressWithCall } from '../sagas/sagas';
 
 
 export const history = createHistory();
@@ -62,6 +62,8 @@ function configureStoreDev(initialState) {
     });
   }
   sagaMiddleware.run(helloSaga);
+  sagaMiddleware.run(generateBtcAccount);
+  sagaMiddleware.run(generateNewAddressWithCall);
   return store;
 }
 

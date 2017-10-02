@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+import * as types from './actionTypes';
 import btc from 'bitcoinjs-lib';
 import bip39 from 'bip39';
 import { getFormattedDateTime } from '../utils/dateHelper';
@@ -14,7 +14,6 @@ function deriveAddressFromPathAsync(root, addressType, addressIndex) {
   return new Promise((resolve) => {
     setTimeout( () => {
       const path = `m/44'/0'/0'/${addressType}/${addressIndex}`;
-      console.log('Resolving new address promise');
       resolve({ path, address: deriveAddressFromPath(root, addressType, addressIndex) });
     }, 1000);
   });
@@ -52,9 +51,7 @@ export function generateBtcAddress() {
     let addressPromises = [];
 
     for (let addressIndex = 0; addressIndex < numberOfAddressesToPopulate; addressIndex++) {
-      console.log('Pushing new address request');
       addressPromises.push(deriveAddressFromPathAsync(publicSeedRoot, 0, addressIndex));
-      console.log('Done pushing new address request');
     }
     Promise.all(addressPromises).then( (addresses) => {
       dispatch(
@@ -70,11 +67,12 @@ export function generateBtcAddress() {
   };
 }
 
-export function addNewAddress(addresses, mnemonic, index) {
+export function addNewAddress(mnemonic, index) {
   return (dispatch) => {
     deriveAddressFromPathAsync(btc.HDNode.fromSeedBuffer(bip39.mnemonicToSeed(mnemonic)), 0, index)
       .then(result => {
-        dispatch( {type: types.ADD_NEW_ADDRESS_SUCCESS, addresses : [ ...addresses, result ] } );
+        dispatch( {type: types.ADD_NEW_ADDRESS_SUCCESS, address: result  } );
       });
   };
 }
+

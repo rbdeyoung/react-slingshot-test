@@ -1,4 +1,4 @@
-import { SAVE_RICH_TEST, UPDATE_RICH_TEST_PROPS, ADD_NEW_ADDRESS_SUCCESS, GENERATE_BTC_ADDRESS_SUCCESS } from '../constants/actionTypes';
+import { SAVE_RICH_TEST, UPDATE_RICH_TEST_PROPS, ADD_NEW_ADDRESS_SUCCESS, GENERATE_BTC_ADDRESS_SUCCESS, SAGA_GENERATE_BTC_ACCOUNT_SUCCESS, SAGA_GENERATE_BTC_ADDRESS_SUCCESS } from '../actions/actionTypes';
 import objectAssign from 'object-assign';
 import initialState from './initialState';
 
@@ -19,10 +19,13 @@ export default function richTestReducer(state = initialState.richTest, action) {
       newState.dateModified = action.dateModified;
       newState[ action.fieldName ] = action.value;
       return newState;
+    case SAGA_GENERATE_BTC_ACCOUNT_SUCCESS:
     case GENERATE_BTC_ADDRESS_SUCCESS:
-      return Object.assign({}, state, { extendedPublicKey: action.extendedPublicKey, extendedPrivateKey: action.extendedPrivateKey, addresses: action.addresses, mnemonic: action.mnemonic });
+      console.log('Saga generate BTC Account action reducing!', action);
+      return Object.assign({}, state, { extendedPublicKey: action.extendedPublicKey, extendedPrivateKey: action.extendedPrivateKey, mnemonic: action.mnemonic, addresses: action.addresses });
     case ADD_NEW_ADDRESS_SUCCESS:
-      return Object.assign({}, state, {addresses: action.addresses});
+    case SAGA_GENERATE_BTC_ADDRESS_SUCCESS:
+      return Object.assign({}, state, {addresses: [...state.addresses, action.address] });
     default:
       return state;
   }

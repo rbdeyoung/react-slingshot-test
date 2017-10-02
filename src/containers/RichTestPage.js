@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as actions from '../actions/richTestActions';
+import * as sagaActions from '../actions/richTestSagaActions';
 import RichTestForm from '../components/RichTestForm';
 
 export const RichTestPage = (props) => {
@@ -12,12 +13,15 @@ export const RichTestPage = (props) => {
       richTest={props.richTest}
       handleRichTestFormInputUpdate={props.actions.handleRichTestFormInputUpdate}
       generateBtcAddress={props.actions.generateBtcAddress}
-      getNextAddress={props.actions.addNewAddress} />
+      getNextAddress={props.actions.addNewAddress}
+      generateNewAccountWithSagas={props.sagaActions.generateNewAccount}
+      generateNewAddressWithSagas={props.sagaActions.generateNewAddress} />
   );
 };
 
 RichTestPage.propTypes = {
   actions: PropTypes.object.isRequired,
+  sagaActions: PropTypes.object.isRequired,
   richTest: PropTypes.object.isRequired
 };
 
@@ -29,7 +33,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(actions, dispatch),
+    sagaActions: bindActionCreators(sagaActions, dispatch)
   };
 }
 
