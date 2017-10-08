@@ -3,18 +3,17 @@ import * as types from './actionTypes';
 const numberOfAddressesToPopulate = 3;
 
 export function generateNewAccount() {
-  console.log('sagaActions: generateNewAccount');
   return {
     type: types.SAGA_GENERATE_BTC_ACCOUNT_BEGIN,
     numberOfAddressesToPopulate
   };
 }
 
-export function generateNewAddress(mnemonic, addressIndex) {
-  console.log('sagaActions: generateNewAddress');
+export function generateNewAddress(xpub, addressIndex) {
+
   return {
     type: types.SAGA_GENERATE_BTC_ADDRESS_BEGIN,
-    mnemonic,
+    xpub,
     addressIndex
   };
 }

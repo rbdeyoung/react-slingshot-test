@@ -2,34 +2,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, NavLink, Route } from 'react-router-dom';
-import HomePage from './HomePage';
-import FuelSavingsPage from '../containers/FuelSavingsPage';
 import RichTestPage from '../containers/RichTestPage';
 import AboutPage from './AboutPage';
 import NotFoundPage from './NotFoundPage';
-
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
 // component at the top-level.
 
 class App extends React.Component {
   render() {
-    const activeStyle = { color: 'blue' };
+    const activeStyle = { color: '#fff', 'backgroundColor': '#080808' };
     return (
-      <div>
+      <div className="container">
         <div>
-          <NavLink exact to="/" activeStyle={activeStyle}>Home</NavLink>
-          {' | '}
-          <NavLink to="/fuel-savings" activeStyle={activeStyle}>Demo App</NavLink>
-          {' | '}
-          <NavLink to="/rich-test" activeStyle={activeStyle}>Rich Test</NavLink>
-          {' | '}
-          <NavLink to="/about" activeStyle={activeStyle}>About</NavLink>
+          <nav className="navbar navbar-inverse navbar-default">
+            <div className="container">
+              <div className="navbar-header">
+                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar" />
+                  <span className="icon-bar" />
+                  <span className="icon-bar" />
+                </button>
+                <a className="navbar-brand" href="#">React Bitcoin Toolbox</a>
+              </div>
+              <div id="navbar" className="collapse navbar-collapse">
+                <ul className="nav navbar-nav">
+                  <li><NavLink exact to="/" activeStyle={activeStyle}>Home</NavLink></li>
+                  <li><NavLink to="/about" activeStyle={activeStyle}>About</NavLink></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
         </div>
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/fuel-savings" component={FuelSavingsPage} />
-          <Route path="/rich-test" component={RichTestPage} />
+          <Route exact path="/" component={RichTestPage} />
+          {/*<Route path="/fuel-savings" component={FuelSavingsPage} />*/}
           <Route path="/about" component={AboutPage} />
           <Route component={NotFoundPage} />
         </Switch>

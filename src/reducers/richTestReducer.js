@@ -2,6 +2,10 @@ import { SAVE_RICH_TEST, UPDATE_RICH_TEST_PROPS, ADD_NEW_ADDRESS_SUCCESS, GENERA
 import objectAssign from 'object-assign';
 import initialState from './initialState';
 
+function getAddressesDescriptor(isChange){
+  return isChange ? 'internalAddresses' : 'externalAddresses';
+}
+
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
 // State is considered immutable. Instead,
 // create a copy of the state passed and set new values on the copy.
@@ -11,8 +15,6 @@ export default function richTestReducer(state = initialState.richTest, action) {
   let newState;
   switch (action.type) {
     case SAVE_RICH_TEST:
-      // For this example, just simulating a save by changing date modified.
-      // In a real app using Redux, you might use redux-thunk and handle the async call in fuelSavingsActions.js
       return objectAssign({}, state, { dateModified: action.dateModified });
     case UPDATE_RICH_TEST_PROPS:
       newState = Object.assign({}, state);
@@ -21,12 +23,17 @@ export default function richTestReducer(state = initialState.richTest, action) {
       return newState;
     case SAGA_GENERATE_BTC_ACCOUNT_SUCCESS:
     case GENERATE_BTC_ADDRESS_SUCCESS:
-      console.log('Saga generate BTC Account action reducing!', action);
-      return Object.assign({}, state, { extendedPublicKey: action.extendedPublicKey, extendedPrivateKey: action.extendedPrivateKey, mnemonic: action.mnemonic, addresses: action.addresses });
+      return Object.assign({}, state, {
+        xpub: action.xpub,
+        mnemonic: action.mnemonic,
+        externalAddresses: action.externalAddresses,
+        internalAddresses: action.internalAddresses });
     case ADD_NEW_ADDRESS_SUCCESS:
     case SAGA_GENERATE_BTC_ADDRESS_SUCCESS:
-      return Object.assign({}, state, {addresses: [...state.addresses, action.address] });
+      return Object.assign({}, state, { [getAddressesDescriptor(action.isChange)]: [...state[getAddressesDescriptor(action.isChange)], action.address] });
     default:
       return state;
   }
 }
+
+

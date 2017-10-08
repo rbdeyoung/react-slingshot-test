@@ -36,6 +36,13 @@ export default {
       },
       inject: true
     }),
+    new webpack.ProvidePlugin({
+      jQuery: 'jquery',
+      $: 'jquery',
+      jquery: 'jquery',
+      'window.jQuery': 'jquery',
+      Popper: ['popp.js', 'default'],
+    }),
     new webpack.LoaderOptionsPlugin({
       minimize: false,
       debug: true,
