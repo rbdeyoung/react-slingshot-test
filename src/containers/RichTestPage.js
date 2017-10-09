@@ -9,11 +9,7 @@ import RichTestForm from '../components/RichTestForm';
 export const RichTestPage = (props) => {
   return (
     <RichTestForm
-      // saveRichTest={props.actions.saveRichTest}
       richTest={props.richTest}
-      // handleRichTestFormInputUpdate={props.actions.handleRichTestFormInputUpdate}
-      // generateBtcAddress={props.actions.generateBtcAddress}
-      // getNextAddress={props.actions.addNewAddress}
       generateNewAccountWithSagas={props.sagaActions.generateNewAccount}
       generateNewAddressWithSagas={props.sagaActions.generateNewAddress} />
   );

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PathAndAddress from './RichTestBtcPathAndAddress';
-
+import PathAndAddressTable from './PathAndAddressTable';
 class RichTestForm extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -16,23 +15,6 @@ class RichTestForm extends React.Component {
 
     // this.testBitcoinJs = this.testBitcoinJs.bind(this);
   }
-
-  // richTestKeypress(e) {
-  //   const { name, value } = e.target;
-  //   this.props.handleRichTestFormInputUpdate(this.props.richTest, name, value);
-  // }
-
-  // save() {
-  //   this.props.saveRichTest();
-  // }
-
-  // generateNewAccount() {
-  //   this.props.generateBtcAddress(this.props.richTest);
-  // }
-
-  // getNextAddress() {
-  //   this.props.getNextAddress(this.props.richTest.mnemonic, this.props.richTest.addresses.length);
-  // }
 
   generateNewAccountWithSagas() {
     this.props.generateNewAccountWithSagas(this.props.richTest);
@@ -66,22 +48,12 @@ class RichTestForm extends React.Component {
 
     return (
       <div>
-        <h2>Rich Test Form</h2>
+        <h2>Bitcoin BIP44 Account 1 Generator</h2>
         <table className="table wallet-address-table">
           <tbody>
-          {/*<tr>*/}
-          {/*<td><label htmlFor="richTestInput">Memo</label></td>*/}
-          {/*<td><input className="small" type="text" onChange={this.richTestKeypress} name="richTestInputValue"*/}
-          {/*value={richTest.richTestInputValue} placeholder="Rich Test Input"/>*/}
-          {/*</td>*/}
-          {/*</tr>*/}
-          {/*<tr>*/}
-          {/*<td><label>Date Modified</label></td>*/}
-          {/*<td>{richTest.dateModified}</td>*/}
-          {/*</tr>*/}
           <tr>
             <td>Mnemonic</td>
-            <td className="breakable">{richTest.mnemonic}</td>
+            <td>{richTest.mnemonic}</td>
           </tr>
           <tr>
             <td>Extended Public Key</td>
@@ -95,28 +67,9 @@ class RichTestForm extends React.Component {
            }
           </tbody>
         </table>
-        <table className="table">
-          <tbody>
+        <PathAndAddressTable addresses={richTest.externalAddresses} />
+        <input type="submit" value="New Address" disabled={!(richTest.mnemonic && richTest.xpub)} onClick={this.generateNewAddressWithSagas}/>
 
-          <tr>
-            <th>Path</th>
-            <th>Address</th>
-          </tr>
-          {
-              richTest.externalAddresses.map((pa, i) => {
-                return <PathAndAddress key={i} path={pa.path} address={pa.address}/>;
-              })
-          }
-          <tr>
-            <td>&nbsp;</td>
-            <td>
-              {/*<input type="submit" value="New Address With Thunks" onClick={this.getNextAddress}/>*/}
-              <input type="submit" value="New Address" disabled={!(richTest.mnemonic && richTest.xpub)} onClick={this.generateNewAddressWithSagas}/>
-              {/*<input type="submit" value="Test bitcoinJS" onClick={this.testBitcoinJs}/>*/}
-            </td>
-          </tr>
-          </tbody>
-        </table>
         <hr/>
       </div>
     );
@@ -126,12 +79,8 @@ class RichTestForm extends React.Component {
 const { func, shape, string } = PropTypes;
 
 RichTestForm.propTypes = {
-  // saveRichTest: func.isRequired,
-  // handleRichTestFormInputUpdate: func.isRequired,
-  // generateBtcAddress: func.isRequired,
   generateNewAddressWithSagas: func.isRequired,
   generateNewAccountWithSagas: func.isRequired,
-  // getNextAddress: func.isRequired,
   richTest: shape({
     richTestInputValue: string,
     address: string,
