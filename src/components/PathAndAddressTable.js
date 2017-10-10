@@ -19,10 +19,11 @@ const PathAndAddressTable = ({addresses}) => {
       </table>
     );
 };
-const { shape, string, arrayOf } = PropTypes;
-const pathAndAddressItem = shape({ mnemonic: string, xpub: string });
+
 PathAndAddressTable.propTypes = {
-    addresses: arrayOf(pathAndAddressItem).required
+  addresses: PropTypes.array.isRequired
+  //addresses: arrayOf(pathAndAddressItem).required
+  //addresses: PropTypes.array.required
 };
 
 export default PathAndAddressTable;

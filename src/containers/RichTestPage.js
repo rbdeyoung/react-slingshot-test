@@ -16,7 +16,6 @@ export const RichTestPage = (props) => {
 };
 
 RichTestPage.propTypes = {
-  actions: PropTypes.object.isRequired,
   sagaActions: PropTypes.object.isRequired,
   richTest: PropTypes.object.isRequired
 };

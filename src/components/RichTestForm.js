@@ -24,25 +24,6 @@ class RichTestForm extends React.Component {
     this.props.generateNewAddressWithSagas(this.props.richTest.xpub, this.props.richTest.externalAddresses.length);
   }
 
-  // testBitcoinJs() {
-  //   var _TestMnemonic =  'maple acquire need weather sleep patient domain oak dust real weird dizzy column any goose curious flee drink retire imitate antenna idea couple attitude';
-  //   var _TestSeed = bip39.mnemonicToSeed(_TestMnemonic);
-  //   console.log(`BIP39 Seed: ${_TestSeed.toString('hex')}`);
-  //   var _TestHDNode = btc.HDNode.fromSeedBuffer(_TestSeed);
-  //   console.log(`BIP32 Root Key: ${_TestHDNode.toBase58()}`);
-  //   var _AccountHDNode = _TestHDNode.deriveHardened(44).deriveHardened(0).deriveHardened(0);
-  //   var Bip32ExtendedPrivate = _AccountHDNode.derive(0);
-  //   console.log(`Bip32 Extended Private Key: ${Bip32ExtendedPrivate.toBase58()}`);
-  //   console.log(`Bip32 Extended Public Key: ${Bip32ExtendedPrivate.neutered().toBase58()}`);
-  //   console.log(`Account extended private key: ${_AccountHDNode.toBase58()}`);
-  //   var _AccountHDNodeXPub = _AccountHDNode.neutered();
-  //   console.log(`Account extended public key: ${_AccountHDNodeXPub.toBase58()}`);
-  //   console.log(btc.HDNode.fromBase58(_AccountHDNodeXPub.toBase58()).toBase58());
-  //   for(var i = 0; i < 5; i++){
-  //     console.log(`Address ${i}: ${_AccountHDNodeXPub.derive(0).derive(i).getAddress()}`);
-  //   }
-  // }
-
   render() {
     const { richTest } = this.props;
 
@@ -82,8 +63,10 @@ RichTestForm.propTypes = {
   generateNewAddressWithSagas: func.isRequired,
   generateNewAccountWithSagas: func.isRequired,
   richTest: shape({
-    richTestInputValue: string,
-    address: string,
+    mnemonic: string,
+    xpub: string,
+    externalAddresses: PropTypes.array,
+    internalAddresses: PropTypes.array,
   }).isRequired
 };
 
