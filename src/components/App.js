@@ -5,7 +5,9 @@ import { Switch, NavLink, Route } from 'react-router-dom';
 import RichTestPage from '../containers/RichTestPage';
 import AboutPage from './AboutPage';
 import NotFoundPage from './NotFoundPage';
+import HomePage from '../containers/HomePage';
 import BitcoinJSHowToPage from '../containers/BitcoinJSHowToPage';
+import FuelSavingsPage from '../containers/FuelSavingsPage';
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
 // component at the top-level.
@@ -30,7 +32,9 @@ class App extends React.Component {
               <div id="navbar" className="collapse navbar-collapse">
                 <ul className="nav navbar-nav">
                   <li><NavLink exact to="/" activeStyle={activeStyle}>Home</NavLink></li>
-                  <li><NavLink exact to="/bip44howto" activeStyle={activeStyle}>Bip 44 Howto</NavLink></li>
+                  <li><NavLink to="/bip44-demo" activeStyle={activeStyle}>BIP44 Account Generator</NavLink></li>
+                  <li><NavLink to="/bip44-howto" activeStyle={activeStyle}>Bip 44 Howto</NavLink></li>
+                  <li><NavLink to="/fuel-savings" activeStyle={activeStyle}>Fuel Savings Calculator</NavLink></li>
                   <li><NavLink to="/about" activeStyle={activeStyle}>About</NavLink></li>
                 </ul>
               </div>
@@ -38,9 +42,10 @@ class App extends React.Component {
           </nav>
         </div>
         <Switch>
-          <Route exact path="/" component={RichTestPage} />
-          <Route exact path="/bip44howto" component={BitcoinJSHowToPage} />
-          {/*<Route path="/fuel-savings" component={FuelSavingsPage} />*/}
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/bip44-demo" component={RichTestPage} />
+          <Route exact path="/bip44-howto" component={BitcoinJSHowToPage} />
+          <Route path="/fuel-savings" component={FuelSavingsPage} />
           <Route path="/about" component={AboutPage} />
           <Route component={NotFoundPage} />
         </Switch>
