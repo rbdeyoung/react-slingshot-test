@@ -10,7 +10,7 @@ const _ACCOUNT = 0;
 //   return root.derivePath(path).getAddress();
 // }
 
-function deriveAddressFromAccount(xpub, addressType, atIndex){
+function deriveAddressFromAccount(xpub, addressType, atIndex) {
 
   return btc.HDNode.fromBase58(xpub).derive(addressType).derive(atIndex).getAddress();
 }
@@ -25,7 +25,7 @@ export function generateBtcAccount() {
       const accountNode = HDRootNode.deriveHardened(_PURPOSE).deriveHardened(_COIN).deriveHardened(_ACCOUNT);
       const xpub = accountNode.neutered().toBase58();
 
-      resolve({ mnemonic, xpub, internalAddresses: [], externalAddresses: [] });
+      resolve({mnemonic, xpub, internalAddresses: [], externalAddresses: []});
     }, 50);
   });
 }
@@ -46,12 +46,39 @@ export function getAddressAt(xpub, addressIndex, isChange = false) {
   //console.log(xpub, addressIndex, isChange);
   const addressType = isChange ? 1 : 0;
   return new Promise((resolve) => {
-    setTimeout(() => { resolve({
-      path: `m/44'/0'/0'/${addressType}/${addressIndex}`,
-      address: deriveAddressFromAccount(xpub, addressType, addressIndex) });
+    setTimeout(() => {
+      resolve({
+        path: `m/44'/0'/0'/${addressType}/${addressIndex}`,
+        address: deriveAddressFromAccount(xpub, addressType, addressIndex)
+      });
     }, 50);
   });
 }
 
+export function getPrice() {
+
+  const method = "get";
+
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+
+  let options = {
+    method, headers, cache: 'no-store'
+  };
+  const uri = slingshotConfig.api.baseUrl + "/price"; // eslint-disable-line no-undef, no-unused-vars
+  return fetch(uri, options)
+    .then( (r) => {
+      if(!r.ok){
+        throw {status: response.status }
+      }
+      else if(r.status === 204){
+        return r;
+      }
+      return r.json();
+    });
+
+}
 
 
